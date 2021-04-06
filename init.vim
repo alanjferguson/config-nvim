@@ -1,6 +1,7 @@
 " vim: set expandtab tabstop=4 shiftwidth=4:
 
 "---- vim-plug setup  ----
+
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 if has('win32')&&!has('win64')
   let curl_exists=expand('C:\Windows\Sysnative\curl.exe')
@@ -40,8 +41,8 @@ Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'lervag/vimtex'
 
 " Jedi
-Plug 'davidhalter/jedi-vim'
-Plug 'zchee/deoplete-jedi'
+" Plug 'davidhalter/jedi-vim'
+" Plug 'zchee/deoplete-jedi'
 
 " Vim airline
 Plug 'vim-airline/vim-airline'
@@ -62,15 +63,19 @@ Plug 'machakann/vim-highlightedyank'
 " vim-which-key
 Plug 'liuchengxu/vim-which-key', { 'on':['WhichKey', 'WhichKey!'] }
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do':':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter', {'do':':TSUpdate'}
 
-if has('nvim')
-	Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-else
-	Plug 'Shougo/deoplete.nvim'
-	Plug 'roxma/nvim-yarp'
-	Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" nvim-compe
+Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/vim-vsnip'
+
+" if has('nvim')
+" 	Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+" else
+" 	Plug 'Shougo/deoplete.nvim'
+" 	Plug 'roxma/nvim-yarp'
+" 	Plug 'roxma/vim-hug-neovim-rpc'
+" endif
 call plug#end()
 
 " Automatically install missing plugins on startup
@@ -146,7 +151,35 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Auto compete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#enable_at_startup = 1
+set completeopt=menuone,noselect
+
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Setup for Python
@@ -170,9 +203,9 @@ if executable('texlab')
                 \ })
 endif
 " This is new style
-call deoplete#custom#var('omni', 'input_patterns', {
-      \ 'tex': g:vimtex#re#deoplete
-      \})
+" call deoplete#custom#var('omni', 'input_patterns', {
+"       \ 'tex': g:vimtex#re#deoplete
+"       \})
 
 let g:tex_flavour='latex'
 let g:tex_conceal=''
