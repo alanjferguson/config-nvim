@@ -1,8 +1,6 @@
 " vim: set expandtab tabstop=4 shiftwidth=4:
 
 " Map leader to space
-lua vim.g.mapleader = ' '
-lua vim.g.maplocalleader = ','
 
 lua require('settings')
 

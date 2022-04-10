@@ -1,3 +1,6 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ','
+
 vim.o.mouse = 'a'
 
 vim.o.wrap = true
