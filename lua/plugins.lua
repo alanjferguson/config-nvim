@@ -1,41 +1,45 @@
-------------------------------------------------------------
--- Packages
-------------------------------------------------------------
+-- Bootstrap Paq
 
-vim.cmd 'packadd paq-nvim'   -- loads the package manager
-local paq = require('paq-nvim').paq -- convient alias
-paq {'savq/paq-nvim', opt=true} -- paq-nvim manages itself
+local fn = vim.fn
 
---Sensible defaults
-paq {'tpope/vim-sensible'}
+local install_path = fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
 
---Color schemes
-paq {'bluz71/vim-nightfly-guicolors'}
+if fn.empty(fn.glob(install_path)) > 0 then
+  fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
+end
 
---VimTeX
-paq {'lervag/vimtex'}
+require "paq" {
+	-- let paq manage itself
+	{"savq/paq-nvim"};
 
---Vim airline
-paq {'vim-airline/vim-airline'}
-paq {'vim-airline/vim-airline-themes'}
+	--Sensible defaults
+	{'tpope/vim-sensible'};
 
---Auto-pairs
-paq {'jiangmiao/auto-pairs'}
+	--Color schemes
+	{'bluz71/vim-nightfly-guicolors'};
+	{'challenger-deep-theme/vim', as='challenger_deep'};
 
---Nerd commenter
-paq {'scrooloose/nerdcommenter'}
+	--VimTeX
+	{'lervag/vimtex'};
 
---Neoformatter
-paq {'sbdchd/neoformat'}
+	--Vim airline
+	{'vim-airline/vim-airline'};
+	{'vim-airline/vim-airline-themes'};
 
---Highlight yanked text
-paq {'machakann/vim-highlightedyank'}
+	--Auto-pairs
+	{'jiangmiao/auto-pairs'};
 
---vim-which-key
-paq {'liuchengxu/vim-which-key', as='WhichKey'}
+	--Nerd commenter
+	{'scrooloose/nerdcommenter'};
 
-paq {'nvim-treesitter/nvim-treesitter', run='TSUpdate'}
+	--Neoformatter
+	{'sbdchd/neoformat'};
 
---nvim-compe
-paq {'hrsh7th/nvim-compe'}
-paq {'hrsh7th/vim-vsnip'}
+	--Highlight yanked text
+	{'machakann/vim-highlightedyank'};
+
+	--vim-which-key
+	{'liuchengxu/vim-which-key', as='WhichKey'};
+
+	{'nvim-treesitter/nvim-treesitter', run='TSUpdate'};
+}
